@@ -31,13 +31,21 @@ export default function CommitsContainer() {
       });
   };
 
-  const renderCommit = (commit, index) => {
-    return <Commit commit={commit} index={index} />;
-  };
-
   useEffect(() => {
     fetchCommits();
   }, []);
+
+  const FlatListItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          backgroundColor: "#000"
+        }}
+      />
+    );
+  };
 
   return (
     <View>
@@ -45,13 +53,16 @@ export default function CommitsContainer() {
       {!isFetching ? (
         <FlatList
           data={commits}
-          renderItem={({ item, index }) => renderCommit(item, index)}
-          keyExtractor={item => item.id}
-          ListEmptyComponent={() => {
+          renderItem={({ item, index }) => (
+            <Commit commit={item} index={index} />
+          )}
+          ItemSeparatorComponent={FlatListItemSeparator}
+          keyExtractor={item => item.hash}
+          ListEmptyComponent={() => (
             <View>
               <Text>No Commits</Text>
-            </View>;
-          }}
+            </View>
+          )}
         />
       ) : (
         <Text>Fetching....</Text>

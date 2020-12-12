@@ -5,7 +5,7 @@ export default function Commit(props) {
   const { user, hash, message } = props.commit;
 
   return (
-    <View>
+    <View key={"commit-" + hash}>
       <Text>Commit {props.index + 1}</Text>
       <Text>Author: {user}</Text>
       <Text>Author: {hash}</Text>
