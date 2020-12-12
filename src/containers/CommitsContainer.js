@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, View, Text } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 import Commit from "../components/Commit";
 
@@ -65,7 +65,7 @@ export default function CommitsContainer() {
           )}
         />
       ) : (
-        <Text>Fetching....</Text>
+        <ActivityIndicator color="#000000" size="large" />
       )}
     </View>
   );
