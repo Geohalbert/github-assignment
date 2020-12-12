@@ -23,10 +23,17 @@ export default function CommitsContainer() {
         const commitArray = [];
         data.forEach(resp => {
           let user = resp.author.login;
-          let hash = resp.comments_url.slice(66, 106);
+          let hash = resp.sha;
           let message = resp.commit.message;
           let avatar = resp.author.avatar_url;
-          let commit = { user, hash, message, avatar };
+          let date = resp.commit.author.date;
+          let commit = {
+            avatar,
+            date,
+            hash,
+            message,
+            user
+          };
           commitArray.push(commit);
         });
         setCommits(commitArray);
