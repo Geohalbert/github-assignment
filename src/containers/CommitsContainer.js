@@ -8,13 +8,12 @@ export default function CommitsContainer() {
   const [isFetching, setIsFetching] = useState(false);
 
   const fetchCommits = async () => {
+    setIsFetching(true);
     fetch("https://api.github.com/repos/geohalbert/github-assignment/commits")
       .then(response => {
-        setIsFetching(true);
         return response.json(); //Converting the response to a JSON object
       })
       .then(data => {
-        setIsFetching(false);
         const commitArray = [];
         data.forEach(resp => {
           let user = resp.commit.author.name;
@@ -24,6 +23,7 @@ export default function CommitsContainer() {
           commitArray.push(commit);
         });
         setCommits(commitArray.reverse());
+        setIsFetching(false);
       })
       .catch(error => {
         setIsFetching(false);
