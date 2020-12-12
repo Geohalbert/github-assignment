@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 
 import Commit from "../components/Commit";
 
@@ -22,7 +28,7 @@ export default function CommitsContainer() {
           let commit = { user, hash, message };
           commitArray.push(commit);
         });
-        setCommits(commitArray.reverse());
+        setCommits(commitArray);
         setIsFetching(false);
       })
       .catch(error => {
@@ -48,7 +54,7 @@ export default function CommitsContainer() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Commit Container</Text>
       {!isFetching ? (
         <FlatList
@@ -65,8 +71,25 @@ export default function CommitsContainer() {
           )}
         />
       ) : (
-        <ActivityIndicator color="#000000" size="large" />
+        <ActivityIndicator style={styles.fetching} size="large" />
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "80%"
+  },
+  fetching: {
+    alignItems: "center",
+    bottom: 0,
+    justifyContent: "center",
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 0,
+    zIndex: 1
+  }
+});
