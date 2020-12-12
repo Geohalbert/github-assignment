@@ -1,9 +1,10 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { approxTime } from "../utils/functions";
 
 export default function Commit(props) {
-  const { avatar, hash, message, user } = props.commit;
-
+  const { avatar, date, hash, message, user } = props.commit;
+  const timeDiff = approxTime(date);
   return (
     <View style={styles.container} key={"commit-" + hash}>
       <View style={styles.cardHeader}>
@@ -19,7 +20,9 @@ export default function Commit(props) {
         <Text>Hash: {hash.slice(0, 7)}</Text>
       </View>
       <View style={styles.cardBody}>
-        <Text>{message}</Text>
+        <Text>
+          {timeDiff}: {message}
+        </Text>
       </View>
     </View>
   );
