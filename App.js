@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import CommitsContainer from "./src/containers/CommitsContainer";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>SECOND COMMIT</Text>
+      <CommitsContainer />
       <StatusBar style="auto" />
     </View>
   );
