@@ -22,10 +22,11 @@ export default function CommitsContainer() {
       .then(data => {
         const commitArray = [];
         data.forEach(resp => {
-          let user = resp.commit.author.name;
+          let user = resp.author.login;
           let hash = resp.comments_url.slice(66, 106);
           let message = resp.commit.message;
-          let commit = { user, hash, message };
+          let avatar = resp.author.avatar_url;
+          let commit = { user, hash, message, avatar };
           commitArray.push(commit);
         });
         setCommits(commitArray);
@@ -80,7 +81,7 @@ export default function CommitsContainer() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "80%"
+    width: "90%"
   },
   fetching: {
     alignItems: "center",
