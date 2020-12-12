@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, View, Text } from "react-native";
 
+import Commit from "../components/Commit";
+
 export default function CommitsContainer() {
   const [commits, setCommits] = useState();
   const [isFetching, setIsFetching] = useState(false);
@@ -30,14 +32,7 @@ export default function CommitsContainer() {
   };
 
   const renderCommit = (commit, index) => {
-    return (
-      <View>
-        <Text>Commit {index + 1}</Text>
-        <Text>Author: {commit.user}</Text>
-        <Text>Author: {commit.hash}</Text>
-        <Text>Author: {commit.message}</Text>
-      </View>
-    );
+    return <Commit commit={commit} index={index} />;
   };
 
   useEffect(() => {
@@ -47,16 +42,20 @@ export default function CommitsContainer() {
   return (
     <View>
       <Text>Commit Container</Text>
-      <FlatList
-        data={commits}
-        renderItem={({ item, index }) => renderCommit(item, index)}
-        keyExtractor={item => item.id}
-        ListEmptyComponent={() => {
-          <View>
-            <Text>Empty</Text>
-          </View>;
-        }}
-      />
+      {!isFetching ? (
+        <FlatList
+          data={commits}
+          renderItem={({ item, index }) => renderCommit(item, index)}
+          keyExtractor={item => item.id}
+          ListEmptyComponent={() => {
+            <View>
+              <Text>No Commits</Text>
+            </View>;
+          }}
+        />
+      ) : (
+        <Text>Fetching....</Text>
+      )}
     </View>
   );
 }
