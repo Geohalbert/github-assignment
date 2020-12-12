@@ -8,8 +8,8 @@ export default function Commit(props) {
     <View key={"commit-" + hash}>
       <Text>Commit {props.index + 1}</Text>
       <Text>Author: {user}</Text>
-      <Text>Author: {hash}</Text>
-      <Text>Author: {message}</Text>
+      <Text>Hash: {hash.slice(0, 7)}</Text>
+      <Text>Message: {message}</Text>
     </View>
   );
 }
