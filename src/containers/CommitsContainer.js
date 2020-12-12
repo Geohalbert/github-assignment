@@ -3,11 +3,16 @@ import { View, Text } from "react-native";
 
 export default function CommitsContainer() {
   const [commits, setCommits] = useState();
+  const [isFetching, setIsFetching] = useState(false);
 
   const fetchCommits = async () => {
     fetch("https://api.github.com/repos/geohalbert/github-assignment/commits")
-      .then(response => response.json()) //Converting the response to a JSON object
+      .then(response => {
+        setIsFetching(true);
+        return response.json(); //Converting the response to a JSON object
+      })
       .then(data => {
+        setIsFetching(false);
         const commitArray = [];
         data.forEach(resp => {
           let user = resp.commit.author.name;
@@ -19,7 +24,10 @@ export default function CommitsContainer() {
         setCommits(commitArray);
         console.log(`commits: ${JSON.stringify(commits)}`);
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        setIsFetching(false);
+        return console.error(error);
+      });
   };
 
   useEffect(() => {
@@ -29,6 +37,7 @@ export default function CommitsContainer() {
   return (
     <View>
       <Text>Commit Container</Text>
+      <Text>Fetching: {isFetching ? "true" : "false"}</Text>
     </View>
   );
 }
