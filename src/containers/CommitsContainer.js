@@ -20,12 +20,13 @@ export default function CommitsContainer() {
   const fetchCommits = async () => {
     setIsFetching(true);
     fetch(
-      "https://api.github.com/repos/geohalbert/github-assignment/commits?per_page=100"
+      "https://api.github.com/repos/geohalbert/github-assignment/commits?per_page=100" // github api endpoint for fetching commits
     )
       .then(response => {
         return response.json(); //Converting the response to a JSON object
       })
       .then(data => {
+        // data from request is parsed and pushed into array
         const commitArray = [];
         data.forEach(item => {
           let user = item.author.login;
@@ -53,14 +54,17 @@ export default function CommitsContainer() {
       });
   };
 
+  // data is fetched automatically on startup
   useEffect(() => {
     fetchCommits();
   }, []);
 
+  // component used to separate each commit
   const FlatListItemSeparator = () => {
     return <View style={styles.separator} />;
   };
 
+  // in the case where no commits have been made, this message is displayed - not applicable here
   const emptyComponent = () => {
     return (
       <View>
@@ -69,6 +73,7 @@ export default function CommitsContainer() {
     );
   };
 
+  // header for flatlist
   const listHeader = () => (
     <View style={styles.listDetails}>
       {commits && (

@@ -5,7 +5,7 @@ import { Colors } from "../utils/colors";
 
 export default function Commit(props) {
   const { avatar, date, hash, message, user } = props.commit;
-  const timeDiff = approxTime(date);
+  const timeDiff = approxTime(date); // calculates time passed since commit was made
   return (
     <View style={styles.container} key={"commit-" + hash}>
       <View style={styles.cardHeader}>
