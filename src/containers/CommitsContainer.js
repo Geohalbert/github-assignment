@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-
+import Header from "../components/Header";
 import Commit from "../components/Commit";
 import { Colors } from "../utils/colors";
 
@@ -25,12 +25,12 @@ export default function CommitsContainer() {
       })
       .then(data => {
         const commitArray = [];
-        data.forEach(resp => {
-          let user = resp.author.login;
-          let hash = resp.sha;
-          let message = resp.commit.message;
-          let avatar = resp.author.avatar_url;
-          let date = resp.commit.author.date;
+        data.forEach(item => {
+          let user = item.author.login;
+          let hash = item.sha;
+          let message = item.commit.message;
+          let avatar = item.author.avatar_url;
+          let date = item.commit.author.date;
           let commit = {
             avatar,
             date,
@@ -45,7 +45,7 @@ export default function CommitsContainer() {
       })
       .catch(error => {
         setIsFetching(false);
-        return console.error(error);
+        console.error(error);
       });
   };
 
@@ -54,22 +54,21 @@ export default function CommitsContainer() {
   }, []);
 
   const FlatListItemSeparator = () => {
+    return <View style={styles.separator} />;
+  };
+
+  const emptyComponent = () => {
     return (
-      <View
-        style={{
-          height: 1,
-          width: "100%",
-          backgroundColor: Colors.separator
-        }}
-      />
+      <View>
+        <Text>No Commits</Text>
+      </View>
     );
   };
 
-  return (
-    <SafeAreaView>
-      <Text style={styles.headerTitle}>Geohalbert/github-assignment</Text>
+  const listHeader = () => (
+    <View style={styles.listDetails}>
       {!isFetching && commits && (
-        <Text style={styles.headerTitle}>Total Commits: {commits.length}</Text>
+        <Text style={styles.detail}>Total Commits: {commits.length}</Text>
       )}
       <TouchableOpacity
         onPress={() => {
@@ -77,12 +76,18 @@ export default function CommitsContainer() {
           setCommits(commits.reverse());
         }}
       >
-        <Text style={styles.headerTitle}>
+        <Text style={styles.detail}>
           Sort by: {isReversed ? "newest" : "oldest"}
         </Text>
       </TouchableOpacity>
-      <View style={styles.container}>
-        {!isFetching ? (
+    </View>
+  );
+
+  return (
+    <SafeAreaView>
+      <Header />
+      {!isFetching ? (
+        <View style={styles.container}>
           <FlatList
             data={commits}
             renderItem={({ item, index }) => (
@@ -90,16 +95,13 @@ export default function CommitsContainer() {
             )}
             ItemSeparatorComponent={FlatListItemSeparator}
             keyExtractor={item => item.hash}
-            ListEmptyComponent={() => (
-              <View>
-                <Text>No Commits</Text>
-              </View>
-            )}
+            ListEmptyComponent={emptyComponent}
+            ListHeaderComponent={listHeader}
           />
-        ) : (
-          <ActivityIndicator style={styles.fetching} size="large" />
-        )}
-      </View>
+        </View>
+      ) : (
+        <ActivityIndicator style={styles.fetching} size="large" />
+      )}
     </SafeAreaView>
   );
 }
@@ -113,6 +115,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "90%"
   },
+  detail: {
+    color: Colors.primaryTextColor,
+    fontSize: 14
+  },
   fetching: {
     alignItems: "center",
     bottom: 0,
@@ -123,7 +129,15 @@ const styles = StyleSheet.create({
     top: 0,
     zIndex: 1
   },
-  headerTitle: {
-    color: Colors.primaryTextColor
+  listDetails: {
+    margin: 5,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  separator: {
+    backgroundColor: Colors.separator,
+    height: 1,
+    width: "100%"
   }
 });
