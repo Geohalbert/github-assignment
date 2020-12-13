@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from "react-native";
 
@@ -13,6 +14,7 @@ import { Colors } from "../utils/colors";
 
 export default function CommitsContainer() {
   const [commits, setCommits] = useState();
+  const [isReversed, setOrder] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
 
   const fetchCommits = async () => {
@@ -66,6 +68,19 @@ export default function CommitsContainer() {
   return (
     <SafeAreaView>
       <Text style={styles.headerTitle}>Geohalbert/github-assignment</Text>
+      {!isFetching && commits && (
+        <Text style={styles.headerTitle}>Total Commits: {commits.length}</Text>
+      )}
+      <TouchableOpacity
+        onPress={() => {
+          setOrder(!isReversed);
+          setCommits(commits.reverse());
+        }}
+      >
+        <Text style={styles.headerTitle}>
+          Sort by: {isReversed ? "newest" : "oldest"}
+        </Text>
+      </TouchableOpacity>
       <View style={styles.container}>
         {!isFetching ? (
           <FlatList
