@@ -19,7 +19,9 @@ export default function CommitsContainer() {
 
   const fetchCommits = async () => {
     setIsFetching(true);
-    fetch("https://api.github.com/repos/geohalbert/github-assignment/commits")
+    fetch(
+      "https://api.github.com/repos/geohalbert/github-assignment/commits?per_page=100"
+    )
       .then(response => {
         return response.json(); //Converting the response to a JSON object
       })
@@ -67,7 +69,7 @@ export default function CommitsContainer() {
 
   const listHeader = () => (
     <View style={styles.listDetails}>
-      {!isFetching && commits && (
+      {commits && (
         <Text style={styles.detail}>Total Commits: {commits.length}</Text>
       )}
       <TouchableOpacity
