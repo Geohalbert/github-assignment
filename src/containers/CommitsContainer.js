@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
   View
 } from "react-native";
 
 import Commit from "../components/Commit";
+import { Colors } from "../utils/colors";
 
 export default function CommitsContainer() {
   const [commits, setCommits] = useState();
@@ -55,38 +57,44 @@ export default function CommitsContainer() {
         style={{
           height: 1,
           width: "100%",
-          backgroundColor: "#000"
+          backgroundColor: Colors.separator
         }}
       />
     );
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Commit Container</Text>
-      {!isFetching ? (
-        <FlatList
-          data={commits}
-          renderItem={({ item, index }) => (
-            <Commit commit={item} index={index} />
-          )}
-          ItemSeparatorComponent={FlatListItemSeparator}
-          keyExtractor={item => item.hash}
-          ListEmptyComponent={() => (
-            <View>
-              <Text>No Commits</Text>
-            </View>
-          )}
-        />
-      ) : (
-        <ActivityIndicator style={styles.fetching} size="large" />
-      )}
-    </View>
+    <SafeAreaView>
+      <Text style={styles.headerTitle}>Geohalbert/github-assignment</Text>
+      <View style={styles.container}>
+        {!isFetching ? (
+          <FlatList
+            data={commits}
+            renderItem={({ item, index }) => (
+              <Commit commit={item} index={index} />
+            )}
+            ItemSeparatorComponent={FlatListItemSeparator}
+            keyExtractor={item => item.hash}
+            ListEmptyComponent={() => (
+              <View>
+                <Text>No Commits</Text>
+              </View>
+            )}
+          />
+        ) : (
+          <ActivityIndicator style={styles.fetching} size="large" />
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.secondaryBackground,
+    borderColor: Colors.primaryBorder,
+    borderRadius: 6,
+    borderWidth: 2,
     flex: 1,
     width: "90%"
   },
@@ -99,5 +107,8 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     zIndex: 1
+  },
+  headerTitle: {
+    color: Colors.primaryTextColor
   }
 });
