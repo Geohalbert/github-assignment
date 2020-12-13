@@ -10,7 +10,7 @@ export default function Commit(props) {
     <View style={styles.container} key={"commit-" + hash}>
       <View style={styles.cardHeader}>
         <View style={styles.headerDiv}>
-          <Text style={styles.headerText}>{user}</Text>
+          <Text style={styles.user}>{user}</Text>
           <Image
             style={styles.avatar}
             source={{
@@ -18,15 +18,18 @@ export default function Commit(props) {
             }}
           />
         </View>
-        <View style={styles.headerDiv}>
-          <Text style={styles.headerText}>Hash: </Text>
-          <Text style={styles.hashText}>{hash.slice(0, 7)}</Text>
+        <View style={styles.details}>
+          <View style={styles.headerDiv}>
+            <Text style={styles.headerText}>Hash: </Text>
+            <Text style={styles.hashText}>{hash.slice(0, 7)}</Text>
+          </View>
+          <View style={styles.headerDiv}>
+            <Text style={styles.headerText}>{timeDiff}</Text>
+          </View>
         </View>
       </View>
       <View style={styles.cardBody}>
-        <Text>
-          {timeDiff}: {message}
-        </Text>
+        <Text style={styles.message}>{message}</Text>
       </View>
     </View>
   );
@@ -40,20 +43,19 @@ const styles = StyleSheet.create({
     width: 30
   },
   cardBody: {
-    backgroundColor: "#ffffff",
+    backgroundColor: Colors.cardBody,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    borderColor: "#555555",
+    borderColor: Colors.cardBackground,
     borderWidth: 2,
     flexDirection: "row",
     height: "auto",
-    justifyContent: "center",
     padding: 10
   },
   cardHeader: {
     alignItems: "center",
-    backgroundColor: "#555555",
-    borderColor: "#555555",
+    backgroundColor: Colors.cardBackground,
+    borderColor: Colors.cardBackground,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderWidth: 2,
@@ -65,6 +67,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     width: "100%"
   },
+  details: {
+    alignItems: "flex-end",
+    flexDirection: "column"
+  },
   hashText: {
     color: Colors.specialTextColor,
     fontSize: 14
@@ -72,13 +78,23 @@ const styles = StyleSheet.create({
   headerDiv: {
     alignItems: "center",
     flexDirection: "row",
-    height: 50,
+    height: "auto",
     marginHorizontal: 5,
     width: "auto"
   },
   headerText: {
     color: Colors.primaryTextColor,
     fontSize: 14,
+    fontWeight: "600"
+  },
+  message: {
+    fontSize: 18,
+    fontWeight: "600",
+    textAlign: "left"
+  },
+  user: {
+    color: Colors.primaryTextColor,
+    fontSize: 18,
     fontWeight: "600"
   }
 });
