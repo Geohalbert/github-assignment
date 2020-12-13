@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
+  RefreshControl,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -86,22 +86,21 @@ export default function CommitsContainer() {
   return (
     <SafeAreaView>
       <Header />
-      {!isFetching ? (
-        <View style={styles.container}>
-          <FlatList
-            data={commits}
-            renderItem={({ item, index }) => (
-              <Commit commit={item} index={index} />
-            )}
-            ItemSeparatorComponent={FlatListItemSeparator}
-            keyExtractor={item => item.hash}
-            ListEmptyComponent={emptyComponent}
-            ListHeaderComponent={listHeader}
-          />
-        </View>
-      ) : (
-        <ActivityIndicator style={styles.fetching} size="large" />
-      )}
+      <View style={styles.container}>
+        <FlatList
+          data={commits}
+          renderItem={({ item, index }) => (
+            <Commit commit={item} index={index} />
+          )}
+          ItemSeparatorComponent={FlatListItemSeparator}
+          keyExtractor={item => item.hash}
+          ListEmptyComponent={emptyComponent}
+          ListHeaderComponent={listHeader}
+          refreshControl={
+            <RefreshControl refreshing={isFetching} onRefresh={fetchCommits} />
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 }
@@ -118,16 +117,6 @@ const styles = StyleSheet.create({
   detail: {
     color: Colors.primaryTextColor,
     fontSize: 14
-  },
-  fetching: {
-    alignItems: "center",
-    bottom: 0,
-    justifyContent: "center",
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0,
-    zIndex: 1
   },
   listDetails: {
     margin: 5,
