@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { approxTime } from "../utils/functions";
+import { Colors } from "../utils/colors";
 
 export default function Commit(props) {
   const { avatar, date, hash, message, user } = props.commit;
@@ -8,8 +9,8 @@ export default function Commit(props) {
   return (
     <View style={styles.container} key={"commit-" + hash}>
       <View style={styles.cardHeader}>
-        <View style={styles.user}>
-          <Text>{user}</Text>
+        <View style={styles.headerDiv}>
+          <Text style={styles.headerText}>{user}</Text>
           <Image
             style={styles.avatar}
             source={{
@@ -17,7 +18,10 @@ export default function Commit(props) {
             }}
           />
         </View>
-        <Text>Hash: {hash.slice(0, 7)}</Text>
+        <View style={styles.headerDiv}>
+          <Text style={styles.headerText}>Hash: </Text>
+          <Text style={styles.hashText}>{hash.slice(0, 7)}</Text>
+        </View>
       </View>
       <View style={styles.cardBody}>
         <Text>
@@ -53,19 +57,28 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderWidth: 2,
-    color: "#ffffff",
     flexDirection: "row",
     justifyContent: "space-between"
   },
   container: {
-    marginVertical: 20,
-    paddingHorizontal: 20,
+    marginVertical: 5,
+    paddingHorizontal: 5,
     width: "100%"
   },
-  user: {
+  hashText: {
+    color: Colors.specialTextColor,
+    fontSize: 14
+  },
+  headerDiv: {
     alignItems: "center",
     flexDirection: "row",
     height: 50,
+    marginHorizontal: 5,
     width: "auto"
+  },
+  headerText: {
+    color: Colors.primaryTextColor,
+    fontSize: 14,
+    fontWeight: "600"
   }
 });
