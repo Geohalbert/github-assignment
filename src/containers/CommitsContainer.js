@@ -42,7 +42,9 @@ export default function CommitsContainer() {
           };
           commitArray.push(commit);
         });
-        setCommits(commitArray);
+        isReversed
+          ? setCommits(commitArray)
+          : setCommits(commitArray.reverse());
         setIsFetching(false);
       })
       .catch(error => {
