@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: Colors.primaryTextColor,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "600"
   }
 });
